@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "descricao": "Aprender Go",
+        "status": "todo",
+        "data": "2026-05-18T17:25:05.450084",
+        "dataup": "2026-05-18T18:33:26.540183"
+    },
+    {
+        "id": 2,
+        "descricao": "Aprender Java",
+        "status": "todo",
+        "data": "2026-05-18T18:34:06.206864",
+        "dataup": "2026-05-18T18:34:06.206907"
+    }
+]
