@@ -49,15 +49,43 @@ def deletar_tarefa():
     with open('bancoJSON.json', 'w', encoding='utf-8') as arquivo:
         json.dump(tarefas, arquivo, indent=4)
 
-def listar_tarefas ():
+def listar_tarefas (filtro_status=None):
     with open('bancoJSON.json', 'r', encoding='utf-8') as arquivo:
         tarefas = json.load(arquivo)
     for item in tarefas:
-        print(f"ID: {item['id']}")
-        print(f"Nome da Atividade: {item['descricao']}")
-        print(f"Status: {item['status']}")
-        print(f"Data inclusão: {item['data']}")
-        print(f"Data Alteração: {item['dataup']}\n------------------------")
+        status = item.get("status", "todo")
+        if filtro_status is None or status == filtro_status:
+            print(f"ID: {item['id']}")
+            print(f"Nome da Atividade: {item['descricao']}")
+            print(f"Status: {item['status']}")
+            print(f"Data inclusão: {item['data']}")
+            print(f"Data Alteração: {item['dataup']}\n------------------------")
+
+def marcar_progresso():
+    with open("bancoJSON.json", "r",encoding='utf-8') as arquivo:
+        tarefas = json.load(arquivo)
+    id_desejado = int(sys.argv[2])
+    for tarefa in tarefas:
+        if tarefa.get('id') == id_desejado:
+            novo_status = "em-progresso"
+            tarefa["status"] = novo_status
+            tarefa["dataup"] = datetime.now().isoformat()
+            break
+    with open('bancoJSON.json', 'w', encoding='utf-8') as arquivo:
+        json.dump(tarefas, arquivo, indent=4)
+
+def marcar_feita():
+    with open("bancoJSON.json", "r",encoding='utf-8') as arquivo:
+        tarefas = json.load(arquivo)
+    id_desejado = int(sys.argv[2])
+    for tarefa in tarefas:
+        if tarefa.get('id') == id_desejado:
+            novo_status = "feita"
+            tarefa["status"] = novo_status
+            tarefa["dataup"] = datetime.now().isoformat()
+            break
+    with open('bancoJSON.json', 'w', encoding='utf-8') as arquivo:
+        json.dump(tarefas, arquivo, indent=4)
 
 comando = sys.argv[1]
 if comando == "add":
@@ -65,8 +93,9 @@ if comando == "add":
     print("Executando a ação de adicionar a tarefa")
     adicionar_tarefas()
 elif comando == "list":
+    status_desejado = sys.argv[2]
     print("Executando a ação de listar todas as tarefas: ")
-    listar_tarefas()
+    listar_tarefas(status_desejado)
 elif comando == "update":
     id_desejado = sys.argv[2]
     nova_descricao = sys.argv[3]
@@ -74,5 +103,13 @@ elif comando == "update":
     atualizar_tarefa()
 elif comando == "delete":
     id_desejado = sys.argv[2]
-    print("Executando a ação de deletar uma tarefa: ")
+    print("Executando a ação de deletar")
     deletar_tarefa()
+elif comando == "mark-in-progress":
+    id_desejado = sys.argv[2]
+    marcar_progresso()
+    print("Tarefa marcada em-progresso.")
+elif comando == "mark-done":
+    id_desejado = sys.argv[2]
+    marcar_feita()
+    print("Tarefa feita.")
