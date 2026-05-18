@@ -10,13 +10,13 @@ def adicionar_tarefas():
         tarefas = []
     id_tarefa = len(tarefas) + 1
     descricao_tarefa = (sys.argv[2])
-    status = 'todo'
+    status = 'todos'
     create_date = datetime.now().isoformat()
     update_date = datetime.now().isoformat()
     nova_tarefa = {
         'id': id_tarefa,
         'descricao': descricao_tarefa,
-        'status': 'todo',
+        'status': 'todos',
         'data': create_date,
         'dataup': update_date
     }
@@ -49,11 +49,11 @@ def deletar_tarefa():
     with open('bancoJSON.json', 'w', encoding='utf-8') as arquivo:
         json.dump(tarefas, arquivo, indent=4)
 
-def listar_tarefas (filtro_status=None):
+def listar_tarefas(filtro_status=None):
     with open('bancoJSON.json', 'r', encoding='utf-8') as arquivo:
         tarefas = json.load(arquivo)
     for item in tarefas:
-        status = item.get("status", "todo")
+        status = item.get("status", "todos")
         if filtro_status is None or status == filtro_status:
             print(f"ID: {item['id']}")
             print(f"Nome da Atividade: {item['descricao']}")
@@ -88,15 +88,18 @@ def marcar_feita():
         json.dump(tarefas, arquivo, indent=4)
 
 comando = sys.argv[1]
-if comando == "add":
+if comando == "adicione":
     descricao = sys.argv[2]
     print("Executando a ação de adicionar a tarefa")
     adicionar_tarefas()
-elif comando == "list":
-    status_desejado = sys.argv[2]
-    print("Executando a ação de listar todas as tarefas: ")
-    listar_tarefas(status_desejado)
-elif comando == "update":
+elif comando == "liste":
+    if len(sys.argv) == 3:
+        status_desejado = sys.argv[2]
+        print("Executando a ação de listar todas as tarefas: ")
+        listar_tarefas(status_desejado)
+    else:
+        listar_tarefas()
+elif comando == "atualize":
     id_desejado = sys.argv[2]
     nova_descricao = sys.argv[3]
     print("Executando a ação de atualizar as tarefas: ")
@@ -105,11 +108,11 @@ elif comando == "delete":
     id_desejado = sys.argv[2]
     print("Executando a ação de deletar")
     deletar_tarefa()
-elif comando == "mark-in-progress":
+elif comando == "marque-em-progresso":
     id_desejado = sys.argv[2]
     marcar_progresso()
     print("Tarefa marcada em-progresso.")
-elif comando == "mark-done":
+elif comando == "marque-feita":
     id_desejado = sys.argv[2]
     marcar_feita()
     print("Tarefa feita.")
