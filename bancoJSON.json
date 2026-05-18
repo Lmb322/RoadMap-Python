@@ -9,15 +9,22 @@
     {
         "id": 2,
         "descricao": "Aprender Java",
-        "status": "todo",
+        "status": "todos",
         "data": "2026-05-18T18:34:06.206864",
         "dataup": "2026-05-18T18:34:06.206907"
     },
     {
         "id": 3,
         "descricao": "Responder a mui\u00e9",
-        "status": "todo",
+        "status": "feita",
         "data": "2026-05-18T20:11:13.208137",
-        "dataup": "2026-05-18T20:11:13.208177"
+        "dataup": "2026-05-18T20:16:41.235692"
+    },
+    {
+        "id": 4,
+        "descricao": "tomar banho",
+        "status": "todos",
+        "data": "2026-05-18T20:21:27.677037",
+        "dataup": "2026-05-18T20:21:27.677081"
     }
 ]
